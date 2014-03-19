@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import com.jinnova.smartpad.partner.IBranch;
 import com.jinnova.smartpad.partner.IUser;
 import com.jinnova.smartpad.partner.IPartnerManager;
-import com.jinnova.smartpad.partner.PartnerUtils;
 import com.jinnova.smartpad.partner.SmartpadCommon;
 
 public class SampleDataGenerator {
@@ -15,19 +14,19 @@ public class SampleDataGenerator {
 		IPartnerManager pm = SmartpadCommon.getPartnerManager();
 		IUser primaryUser;
 		primaryUser = pm.createPrimaryUser("lotte", "abc123");
-		primaryUser.setPasshash(PartnerUtils.md5("123abc"));
+		primaryUser.setPassword("123abc");
 		pm.updateUser(primaryUser, primaryUser);
 		primaryUser = pm.login("lotte", "123abc");
 		System.out.println(primaryUser.getLogin());
-		IBranch branch = pm.loadBranch(primaryUser.getBranchId());
+		IBranch branch = primaryUser.loadBranch();
 		branch.setName("Lotteria");
-		pm.updateBranch(primaryUser, branch);
+		primaryUser.updateBranch();
 		System.out.println(branch.getName());
 		
 		IUser u = pm.createUser(primaryUser, "lotte2", "x");
 		System.out.println(u.getLogin());
 		
-		branch = pm.loadBranch(u.getBranchId());
+		branch = u.loadBranch();
 		System.out.println(branch.getName());
 	}
 
