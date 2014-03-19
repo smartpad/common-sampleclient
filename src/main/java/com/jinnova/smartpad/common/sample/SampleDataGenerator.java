@@ -19,13 +19,16 @@ public class SampleDataGenerator {
 		pm.updateUser(primaryUser, primaryUser);
 		primaryUser = pm.login("lotte", "123abc");
 		System.out.println(primaryUser.getLogin());
+		IBranch branch = pm.loadBranch(primaryUser.getBranchId());
+		branch.setName("Lotteria");
+		pm.updateBranch(primaryUser, branch);
+		System.out.println(branch.getName());
 		
 		IUser u = pm.createUser(primaryUser, "lotte2", "x");
 		System.out.println(u.getLogin());
 		
-		IBranch branch = pm.loadBranch("lotte");
-		branch.setName("Lotteria");
-		pm.updateBranch(primaryUser, branch);
+		branch = pm.loadBranch(u.getBranchId());
+		System.out.println(branch.getName());
 	}
 
 }
