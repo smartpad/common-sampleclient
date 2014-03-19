@@ -13,19 +13,19 @@ public class SampleDataGenerator {
 	public static void main(String[] args) throws SQLException {
 		SmartpadCommon.initialize();
 		IPartnerManager pm = SmartpadCommon.getPartnerManager();
-		IUser u;
-		u = pm.createPrimaryUser("lotte", "abc123");
-		u.setPasshash(PartnerUtils.md5("123abc"));
-		pm.updateUser(u);
-		u = pm.loadUser("lotte");
-		System.out.println(u.getLogin());
+		IUser primaryUser;
+		primaryUser = pm.createPrimaryUser("lotte", "abc123");
+		primaryUser.setPasshash(PartnerUtils.md5("123abc"));
+		pm.updateUser(primaryUser, primaryUser);
+		primaryUser = pm.login("lotte", "123abc");
+		System.out.println(primaryUser.getLogin());
 		
-		u = pm.createUser(u, "lotte2", "x");
+		IUser u = pm.createUser(primaryUser, "lotte2", "x");
 		System.out.println(u.getLogin());
 		
 		IBranch branch = pm.loadBranch("lotte");
 		branch.setName("Lotteria");
-		pm.updateBranch(branch);
+		pm.updateBranch(primaryUser, branch);
 	}
 
 }
