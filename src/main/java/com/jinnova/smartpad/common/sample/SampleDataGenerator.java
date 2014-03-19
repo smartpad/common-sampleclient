@@ -12,6 +12,7 @@ public class SampleDataGenerator {
 	public static void main(String[] args) throws SQLException {
 		
 		//user
+		System.out.println("****USER******");
 		SmartpadCommon.initialize();
 		SmartpadCommon.getPartnerManager().clearDatabaseForTests();
 		
@@ -24,6 +25,7 @@ public class SampleDataGenerator {
 		System.out.println(primaryUser.getLogin());
 		
 		//branch
+		System.out.println("****BRANCH******");
 		IOperation branch = primaryUser.loadBranch();
 		branch.setName("Lotteria");
 		primaryUser.updateBranch();
@@ -36,6 +38,25 @@ public class SampleDataGenerator {
 		
 		branch = u.loadBranch();
 		System.out.println(branch.getName());
+		
+		//stores
+		System.out.println("****STORES******");
+		IOperation[] stores = primaryUser.loadStores();
+		System.out.println("Stores: " + stores.length);
+		IOperation store = primaryUser.newStoreInstance();
+		store.setName("Lotteria Nguyen Thi Thap");
+		primaryUser.putStore(store);
+
+		u = pm.login("lotte2", "x");
+		stores = u.loadStores();
+		System.out.println(stores[0].getName());
+		
+		stores[0].setName("Lotteria Nguyen Luong Bang");
+		primaryUser.putStore(stores[0]);
+
+		u = pm.login("lotte2", "x");
+		stores = u.loadStores();
+		System.out.println(stores[0].getName());
 	}
 
 }
