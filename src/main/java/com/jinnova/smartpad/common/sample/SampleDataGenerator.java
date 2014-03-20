@@ -96,11 +96,11 @@ public class SampleDataGenerator {
 		ICatalog rootCat = branch.getRootCatalog();
 		ICatalog cat = rootCat.newSubCatalogInstance();
 		cat.getName().setName("Món điểm tâm");
-		rootCat.putSubCatalog(cat);
+		rootCat.putSubCatalog(primaryUser, cat);
 		
 		ICatalog subCat = cat.newSubCatalogInstance();
 		subCat.getName().setName("Quick breakfast");
-		cat.putSubCatalog(subCat);
+		cat.putSubCatalog(primaryUser, subCat);
 
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
@@ -113,7 +113,7 @@ public class SampleDataGenerator {
 		
 		//catalog update
 		rootCat.getSubCatalogs()[0].getName().setDescription("Both warm and cold");
-		rootCat.putSubCatalog(rootCat.getSubCatalogs()[0]);
+		rootCat.putSubCatalog(primaryUser, rootCat.getSubCatalogs()[0]);
 		
 		//top level catalog item
 		primaryUser = pm.login("lotte", "123abc");
@@ -123,7 +123,7 @@ public class SampleDataGenerator {
 		System.out.println("top level item count: " + rootCat.getItems().length);
 		ICatalogItem item = rootCat.newCatalogItemInstance();
 		item.getName().setName("Mi goi");
-		rootCat.putCatalogItem(item);
+		rootCat.putCatalogItem(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getItems().length);
 
 		primaryUser = pm.login("lotte", "123abc");
@@ -133,7 +133,7 @@ public class SampleDataGenerator {
 		System.out.println("top level item count: " + rootCat.getItems().length);
 		item = rootCat.newCatalogItemInstance();
 		item.getName().setName("Mi goi 2");
-		rootCat.putCatalogItem(item);
+		rootCat.putCatalogItem(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getItems().length);
 	}
 
