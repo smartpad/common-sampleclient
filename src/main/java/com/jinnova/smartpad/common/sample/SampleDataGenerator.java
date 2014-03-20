@@ -2,6 +2,8 @@ package com.jinnova.smartpad.common.sample;
 
 import java.sql.SQLException;
 
+import com.jinnova.smartpad.partner.ICatalog;
+import com.jinnova.smartpad.partner.ICatalogItem;
 import com.jinnova.smartpad.partner.IOperation;
 import com.jinnova.smartpad.partner.IScheduleSequence;
 import com.jinnova.smartpad.partner.IUser;
@@ -11,6 +13,21 @@ import com.jinnova.smartpad.partner.SmartpadCommon;
 public class SampleDataGenerator {
 
 	public static void main(String[] args) throws SQLException {
+		generate();
+		//test();
+	}
+	
+	static void test() throws SQLException {
+		SmartpadCommon.initialize();
+		IPartnerManager pm = SmartpadCommon.getPartnerManager();
+		IUser primaryUser = pm.login("lotte", "123abc");
+		IOperation branch = primaryUser.loadBranch();
+		ICatalog rootCat = branch.getRootCatalog();
+		rootCat.loadChildren();
+		System.out.println("sub catalog count: " + rootCat.getSubCatalogs().length);
+	}
+	
+	static void generate() throws SQLException {
 		
 		//user
 		System.out.println("****USER******");
@@ -72,6 +89,52 @@ public class SampleDataGenerator {
 		u = pm.login("lotte2", "x");
 		stores = u.loadStores();
 		System.out.println(stores[0].getName());
+		
+		//catalog
+		primaryUser = pm.login("lotte", "123abc");
+		branch = primaryUser.loadBranch();
+		ICatalog rootCat = branch.getRootCatalog();
+		ICatalog cat = rootCat.newSubCatalogInstance();
+		cat.getName().setName("Món điểm tâm");
+		rootCat.putSubCatalog(cat);
+		
+		ICatalog subCat = cat.newSubCatalogInstance();
+		subCat.getName().setName("Quick breakfast");
+		cat.putSubCatalog(subCat);
+
+		primaryUser = pm.login("lotte", "123abc");
+		branch = primaryUser.loadBranch();
+		rootCat = branch.getRootCatalog();
+		rootCat.loadChildren();
+		System.out.println("catalog count: " + rootCat.getSubCatalogs().length);
+		
+		rootCat.getSubCatalogs()[0].loadChildren();
+		System.out.println("catalog count: " + cat.getSubCatalogs().length);
+		
+		//catalog update
+		rootCat.getSubCatalogs()[0].getName().setDescription("Both warm and cold");
+		rootCat.putSubCatalog(rootCat.getSubCatalogs()[0]);
+		
+		//top level catalog item
+		primaryUser = pm.login("lotte", "123abc");
+		branch = primaryUser.loadBranch();
+		rootCat = branch.getRootCatalog();
+		rootCat.loadChildren();
+		System.out.println("top level item count: " + rootCat.getItems().length);
+		ICatalogItem item = rootCat.newCatalogItemInstance();
+		item.getName().setName("Mi goi");
+		rootCat.putCatalogItem(item);
+		System.out.println("top level item count: " + rootCat.getItems().length);
+
+		primaryUser = pm.login("lotte", "123abc");
+		branch = primaryUser.loadBranch();
+		rootCat = branch.getRootCatalog();
+		rootCat.loadChildren();
+		System.out.println("top level item count: " + rootCat.getItems().length);
+		item = rootCat.newCatalogItemInstance();
+		item.getName().setName("Mi goi 2");
+		rootCat.putCatalogItem(item);
+		System.out.println("top level item count: " + rootCat.getItems().length);
 	}
 
 }
