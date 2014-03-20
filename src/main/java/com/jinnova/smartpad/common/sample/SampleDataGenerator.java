@@ -3,6 +3,7 @@ package com.jinnova.smartpad.common.sample;
 import java.sql.SQLException;
 
 import com.jinnova.smartpad.partner.IOperation;
+import com.jinnova.smartpad.partner.IScheduleSequence;
 import com.jinnova.smartpad.partner.IUser;
 import com.jinnova.smartpad.partner.IPartnerManager;
 import com.jinnova.smartpad.partner.SmartpadCommon;
@@ -38,6 +39,20 @@ public class SampleDataGenerator {
 		
 		branch = u.loadBranch();
 		System.out.println(branch.getName());
+		
+		//branch open hours
+		branch = primaryUser.loadBranch();
+		branch.getOpenHours().setText("8AM - 10AM Every Day");
+		IScheduleSequence[] schedule = new IScheduleSequence[2];
+		schedule[0] = branch.getOpenHours().newScheduleSequenceInstance();
+		schedule[0].setHours(new int[] {8, 9, 10});
+		branch.getOpenHours().setScheduleSequences(schedule);
+		primaryUser.updateBranch();
+		
+		//branch member levels
+		String[] memberLevels = new String[] {"Bronze", "Gold", "Diamond"};
+		branch.setMemberLevels(memberLevels);
+		primaryUser.updateBranch();
 		
 		//stores
 		System.out.println("****STORES******");
