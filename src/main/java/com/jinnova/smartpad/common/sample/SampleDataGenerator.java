@@ -75,21 +75,21 @@ public class SampleDataGenerator {
 		
 		//stores
 		System.out.println("****STORES******");
-		IOperation[] stores = primaryUser.loadStores();
+		IOperation[] stores = primaryUser.getStorePagingList().loadPage(1).getMembers();
 		System.out.println("Stores: " + stores.length);
-		IOperation store = primaryUser.newStoreInstance();
+		IOperation store = primaryUser.getStorePagingList().newMemberInstance();
 		store.setName("Lotteria Nguyen Thi Thap");
-		primaryUser.putStore(store);
+		primaryUser.getStorePagingList().put(primaryUser, store);
 
 		u = pm.login("lotte2", "x");
-		stores = u.loadStores();
+		stores = u.getStorePagingList().loadPage(1).getMembers();
 		System.out.println(stores[0].getName());
 		
 		stores[0].setName("Lotteria Nguyen Luong Bang");
-		primaryUser.putStore(stores[0]);
+		primaryUser.getStorePagingList().put(primaryUser, stores[0]);
 
 		u = pm.login("lotte2", "x");
-		stores = u.loadStores();
+		stores = u.getStorePagingList().loadPage(1).getMembers();
 		System.out.println(stores[0].getName());
 		
 		//catalog
