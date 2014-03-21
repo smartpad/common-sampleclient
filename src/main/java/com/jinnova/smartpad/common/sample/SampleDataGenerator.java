@@ -147,7 +147,8 @@ public class SampleDataGenerator {
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
 		IPage<IPromotion> promoPage = branch.getPromotionPagingList().loadPage(1);
-		System.out.println(promoPage.getMembers()[0].getName().getName());
+		System.out.println(promoPage.getMembers()[0].getName().getName() + 
+				" (pageCount/totalCount: " + promoPage.getPageCount() + "/" + promoPage.getTotalCount() + ")");
 	}
 
 }
