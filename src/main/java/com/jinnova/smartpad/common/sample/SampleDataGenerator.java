@@ -2,9 +2,11 @@ package com.jinnova.smartpad.common.sample;
 
 import java.sql.SQLException;
 
+import com.jinnova.smartpad.IPage;
 import com.jinnova.smartpad.partner.ICatalog;
 import com.jinnova.smartpad.partner.ICatalogItem;
 import com.jinnova.smartpad.partner.IOperation;
+import com.jinnova.smartpad.partner.IPromotion;
 import com.jinnova.smartpad.partner.IScheduleSequence;
 import com.jinnova.smartpad.partner.IUser;
 import com.jinnova.smartpad.partner.IPartnerManager;
@@ -135,6 +137,17 @@ public class SampleDataGenerator {
 		item.getName().setName("Mi goi 2");
 		rootCat.putCatalogItem(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getItems().length);
+		
+		//promotions
+		IPromotion promo = branch.getPromotionPagingList().newMemberInstance();
+		promo.getName().setName("Buy one get one free");
+		branch.getPromotionPagingList().put(primaryUser, promo);
+		
+		//load promotions
+		primaryUser = pm.login("lotte", "123abc");
+		branch = primaryUser.loadBranch();
+		IPage<IPromotion> promoPage = branch.getPromotionPagingList().loadPage(1);
+		System.out.println(promoPage.getMembers()[0].getName().getName());
 	}
 
 }
