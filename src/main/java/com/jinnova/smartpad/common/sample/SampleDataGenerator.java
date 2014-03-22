@@ -25,8 +25,7 @@ public class SampleDataGenerator {
 		IUser primaryUser = pm.login("lotte", "123abc");
 		IOperation branch = primaryUser.loadBranch();
 		ICatalog rootCat = branch.getRootCatalog();
-		rootCat.loadChildren();
-		System.out.println("sub catalog count: " + rootCat.getSubCatalogs().length);
+		System.out.println("sub catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
 	}
 	
 	static void generate() throws SQLException {
@@ -101,47 +100,44 @@ public class SampleDataGenerator {
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
 		ICatalog rootCat = branch.getRootCatalog();
-		ICatalog cat = rootCat.newSubCatalogInstance();
+		ICatalog cat = rootCat.getSubCatalogPagingList().newMemberInstance(primaryUser);
 		cat.getName().setName("Món điểm tâm");
-		rootCat.putSubCatalog(primaryUser, cat);
+		rootCat.getSubCatalogPagingList().put(primaryUser, cat);
 		
-		ICatalog subCat = cat.newSubCatalogInstance();
+		ICatalog subCat = cat.getSubCatalogPagingList().newMemberInstance(primaryUser);
 		subCat.getName().setName("Quick breakfast");
-		cat.putSubCatalog(primaryUser, subCat);
+		cat.getSubCatalogPagingList().put(primaryUser, subCat);
 
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
 		rootCat = branch.getRootCatalog();
-		rootCat.loadChildren();
-		System.out.println("catalog count: " + rootCat.getSubCatalogs().length);
+		System.out.println("catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
 		
-		rootCat.getSubCatalogs()[0].loadChildren();
-		System.out.println("catalog count: " + cat.getSubCatalogs().length);
+		subCat = rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers()[0];
+		System.out.println("catalog count: " + subCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
 		
 		//catalog update
-		rootCat.getSubCatalogs()[0].getName().setDescription("Both warm and cold");
-		rootCat.putSubCatalog(primaryUser, rootCat.getSubCatalogs()[0]);
+		subCat.getName().setDescription("Both warm and cold");
+		rootCat.getSubCatalogPagingList().put(primaryUser, subCat);
 		
 		//top level catalog item
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
 		rootCat = branch.getRootCatalog();
-		rootCat.loadChildren();
-		System.out.println("top level item count: " + rootCat.getItems().length);
-		ICatalogItem item = rootCat.newCatalogItemInstance();
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
+		ICatalogItem item = rootCat.getCatalogItemPagingList().newMemberInstance(primaryUser);
 		item.getName().setName("Mi goi");
-		rootCat.putCatalogItem(primaryUser, item);
-		System.out.println("top level item count: " + rootCat.getItems().length);
+		rootCat.getCatalogItemPagingList().put(primaryUser, item);
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1));
 
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
 		rootCat = branch.getRootCatalog();
-		rootCat.loadChildren();
-		System.out.println("top level item count: " + rootCat.getItems().length);
-		item = rootCat.newCatalogItemInstance();
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
+		item = rootCat.getCatalogItemPagingList().newMemberInstance(primaryUser);
 		item.getName().setName("Mi goi 2");
-		rootCat.putCatalogItem(primaryUser, item);
-		System.out.println("top level item count: " + rootCat.getItems().length);
+		rootCat.getCatalogItemPagingList().put(primaryUser, item);
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
 		
 		//promotions
 		IPromotion promo = branch.getPromotionPagingList().newMemberInstance(primaryUser);
