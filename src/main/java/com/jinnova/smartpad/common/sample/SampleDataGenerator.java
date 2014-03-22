@@ -3,20 +3,27 @@ package com.jinnova.smartpad.common.sample;
 import java.sql.SQLException;
 
 import com.jinnova.smartpad.IPage;
+import com.jinnova.smartpad.IPagingList;
 import com.jinnova.smartpad.partner.ICatalog;
 import com.jinnova.smartpad.partner.ICatalogItem;
+import com.jinnova.smartpad.partner.ICatalogItemSort;
+import com.jinnova.smartpad.partner.ICatalogSort;
 import com.jinnova.smartpad.partner.IOperation;
+import com.jinnova.smartpad.partner.IOperationSort;
 import com.jinnova.smartpad.partner.IPromotion;
+import com.jinnova.smartpad.partner.IPromotionSort;
 import com.jinnova.smartpad.partner.IScheduleSequence;
 import com.jinnova.smartpad.partner.IUser;
 import com.jinnova.smartpad.partner.IPartnerManager;
+import com.jinnova.smartpad.partner.IUserSort;
 import com.jinnova.smartpad.partner.SmartpadCommon;
 
 public class SampleDataGenerator {
 
 	public static void main(String[] args) throws SQLException {
-		generate();
+		//generate();
 		//test();
+		testSorters();
 	}
 	
 	static void test() throws SQLException {
@@ -26,6 +33,39 @@ public class SampleDataGenerator {
 		IOperation branch = primaryUser.loadBranch();
 		ICatalog rootCat = branch.getRootCatalog();
 		System.out.println("sub catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	static void testSorters() throws SQLException {
+		SmartpadCommon.initialize();
+		IPartnerManager pm = SmartpadCommon.getPartnerManager();
+		IUser u = pm.login("lotte", "123abc");
+		
+		IPagingList pl = pm.getUserPagingList();
+		testSorters(u, pl, IUserSort.class);
+		
+		pl = u.getStorePagingList();
+		testSorters(u, pl, IOperationSort.class);
+		
+		pl = u.getStorePagingList().loadPage(u, 1).getMembers()[0].getPromotionPagingList();
+		testSorters(u, pl, IPromotionSort.class);
+		//testSorters(u, pl, IUserSort.class);
+		
+		ICatalog cat = u.getStorePagingList().loadPage(u, 1).getMembers()[0].getRootCatalog();
+		pl = cat.getSubCatalogPagingList();
+		testSorters(u, pl, ICatalogSort.class);
+
+		pl = cat.getCatalogItemPagingList();
+		testSorters(u, pl, ICatalogItemSort.class);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	static void testSorters(IUser u, IPagingList list, Class<? extends Enum> e) throws SQLException {
+		Enum[] values = e.getEnumConstants();
+		for (Enum v : values) {
+			list.setSortField(v);
+			list.loadPage(u, 1);
+		}
 	}
 	
 	static void generate() throws SQLException {
