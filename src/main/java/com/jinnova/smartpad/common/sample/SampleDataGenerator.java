@@ -40,20 +40,25 @@ public class SampleDataGenerator {
 		IUser primaryUser;
 		primaryUser = pm.createPrimaryUser("lotte", "abc123");
 		primaryUser.setPassword("123abc");
-		pm.updateUser(primaryUser, primaryUser);
+		pm.getUserPagingList().put(primaryUser, primaryUser);
 		primaryUser = pm.login("lotte", "123abc");
 		System.out.println(primaryUser.getLogin());
 		
 		//branch
 		System.out.println("****BRANCH******");
 		IOperation branch = primaryUser.loadBranch();
-		branch.setName("Lotteria");
+		branch.getName().setName("Lotteria");
 		primaryUser.updateBranch();
 		branch = primaryUser.loadBranch();
 		System.out.println(branch.getName());
 		
-		pm.createUser(primaryUser, "lotte2", "x");
-		IUser u = pm.login("lotte2", "x");
+		//create secondary user
+		primaryUser = pm.login("lotte", "123abc");
+		IUser u = pm.getUserPagingList().newMemberInstance(primaryUser);
+		u.setLogin("lotte2");
+		u.setPassword("x");
+		pm.getUserPagingList().put(primaryUser, u);
+		u = pm.login("lotte2", "x");
 		System.out.println(u.getLogin());
 		
 		branch = u.loadBranch();
@@ -75,21 +80,21 @@ public class SampleDataGenerator {
 		
 		//stores
 		System.out.println("****STORES******");
-		IOperation[] stores = primaryUser.getStorePagingList().loadPage(1).getMembers();
+		IOperation[] stores = primaryUser.getStorePagingList().loadPage(primaryUser, 1).getMembers();
 		System.out.println("Stores: " + stores.length);
-		IOperation store = primaryUser.getStorePagingList().newMemberInstance();
-		store.setName("Lotteria Nguyen Thi Thap");
+		IOperation store = primaryUser.getStorePagingList().newMemberInstance(primaryUser);
+		store.getName().setName("Lotteria Nguyen Thi Thap");
 		primaryUser.getStorePagingList().put(primaryUser, store);
 
 		u = pm.login("lotte2", "x");
-		stores = u.getStorePagingList().loadPage(1).getMembers();
+		stores = u.getStorePagingList().loadPage(u, 1).getMembers();
 		System.out.println(stores[0].getName());
 		
-		stores[0].setName("Lotteria Nguyen Luong Bang");
+		stores[0].getName().setName("Lotteria Nguyen Luong Bang");
 		primaryUser.getStorePagingList().put(primaryUser, stores[0]);
 
 		u = pm.login("lotte2", "x");
-		stores = u.getStorePagingList().loadPage(1).getMembers();
+		stores = u.getStorePagingList().loadPage(u, 1).getMembers();
 		System.out.println(stores[0].getName());
 		
 		//catalog
@@ -139,14 +144,14 @@ public class SampleDataGenerator {
 		System.out.println("top level item count: " + rootCat.getItems().length);
 		
 		//promotions
-		IPromotion promo = branch.getPromotionPagingList().newMemberInstance();
+		IPromotion promo = branch.getPromotionPagingList().newMemberInstance(primaryUser);
 		promo.getName().setName("Buy one get one free");
 		branch.getPromotionPagingList().put(primaryUser, promo);
 		
 		//load promotions
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
-		IPage<IPromotion> promoPage = branch.getPromotionPagingList().loadPage(1);
+		IPage<IPromotion> promoPage = branch.getPromotionPagingList().loadPage(primaryUser, 1);
 		System.out.println(promoPage.getMembers()[0].getName().getName() + 
 				" (pageCount/totalCount: " + promoPage.getPageCount() + "/" + promoPage.getTotalCount() + ")");
 	}
