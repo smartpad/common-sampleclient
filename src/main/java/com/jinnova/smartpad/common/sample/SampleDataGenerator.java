@@ -21,9 +21,9 @@ import com.jinnova.smartpad.partner.SmartpadCommon;
 public class SampleDataGenerator {
 
 	public static void main(String[] args) throws SQLException {
-		//generate();
+		generate();
 		//test();
-		testSorters();
+		//testSorters();
 	}
 	
 	static void test() throws SQLException {
@@ -35,7 +35,7 @@ public class SampleDataGenerator {
 		System.out.println("sub catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	static void testSorters() throws SQLException {
 		SmartpadCommon.initialize();
 		IPartnerManager pm = SmartpadCommon.getPartnerManager();
