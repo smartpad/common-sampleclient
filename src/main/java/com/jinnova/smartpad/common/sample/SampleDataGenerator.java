@@ -5,9 +5,11 @@ import java.sql.SQLException;
 import com.jinnova.smartpad.IPage;
 import com.jinnova.smartpad.IPagingList;
 import com.jinnova.smartpad.partner.ICatalog;
+import com.jinnova.smartpad.partner.ICatalogFieldType;
 import com.jinnova.smartpad.partner.ICatalogItem;
 import com.jinnova.smartpad.partner.ICatalogItemSort;
 import com.jinnova.smartpad.partner.ICatalogSort;
+import com.jinnova.smartpad.partner.ICatalogField;
 import com.jinnova.smartpad.partner.IOperation;
 import com.jinnova.smartpad.partner.IOperationSort;
 import com.jinnova.smartpad.partner.IPromotion;
@@ -70,12 +72,24 @@ public class SampleDataGenerator {
 	
 	static void generate() throws SQLException {
 		
-		//user
-		System.out.println("****USER******");
+		//initialize
 		SmartpadCommon.initialize();
 		SmartpadCommon.getPartnerManager().clearDatabaseForTests();
-		
 		IPartnerManager pm = SmartpadCommon.getPartnerManager();
+		
+		//system catalog
+		ICatalog sysCatFoods = pm.getSystemRootCatalog().getSubCatalogPagingList().newMemberInstance(pm.getSystemUser());
+		sysCatFoods.getName().setName("Foods");
+		sysCatFoods.getCatalogSpec().setSpecId("foods"); //table name
+		ICatalogField field = sysCatFoods.getCatalogSpec().createField();
+		field.setId("name");
+		field.setFieldType(ICatalogFieldType.Text_Name);
+		field.setName("Name");
+		pm.getSystemRootCatalog().getSubCatalogPagingList().put(pm.getSystemUser(), sysCatFoods);
+		
+		//user
+		System.out.println("****USER******");
+		
 		IUser primaryUser;
 		primaryUser = pm.createPrimaryUser("lotte", "abc123");
 		primaryUser.setPassword("123abc");
@@ -86,6 +100,7 @@ public class SampleDataGenerator {
 		//branch
 		System.out.println("****BRANCH******");
 		IOperation branch = primaryUser.loadBranch();
+		branch.setSystemCatalogId(sysCatFoods.getCatalogSpec().getSpecId());
 		branch.getName().setName("Lotteria");
 		primaryUser.updateBranch();
 		branch = primaryUser.loadBranch();
@@ -166,7 +181,7 @@ public class SampleDataGenerator {
 		rootCat = branch.getRootCatalog();
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
 		ICatalogItem item = rootCat.getCatalogItemPagingList().newMemberInstance(primaryUser);
-		item.getName().setName("Mi goi");
+		item.setField(ICatalogField.ID_NAME, "Mi goi");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1));
 
@@ -175,7 +190,7 @@ public class SampleDataGenerator {
 		rootCat = branch.getRootCatalog();
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
 		item = rootCat.getCatalogItemPagingList().newMemberInstance(primaryUser);
-		item.getName().setName("Mi goi 2");
+		item.setField(ICatalogField.ID_NAME, "Mi goi 2");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
 		
