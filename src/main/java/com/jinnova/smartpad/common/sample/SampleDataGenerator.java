@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import com.jinnova.smartpad.IPage;
 import com.jinnova.smartpad.IPagingList;
 import com.jinnova.smartpad.partner.ICatalog;
-import com.jinnova.smartpad.partner.ICatalogFieldType;
 import com.jinnova.smartpad.partner.ICatalogItem;
 import com.jinnova.smartpad.partner.ICatalogItemSort;
 import com.jinnova.smartpad.partner.ICatalogSort;
@@ -75,21 +74,10 @@ public class SampleDataGenerator {
 		//initialize
 		SmartpadCommon.initialize();
 		SmartpadCommon.getPartnerManager().clearDatabaseForTests();
-		IPartnerManager pm = SmartpadCommon.getPartnerManager();
-		
-		//system catalog
-		ICatalog sysCatFoods = pm.getSystemRootCatalog().getSubCatalogPagingList().newMemberInstance(pm.getSystemUser());
-		sysCatFoods.getName().setName("Foods");
-		sysCatFoods.getCatalogSpec().setSpecId("foods"); //table name
-		ICatalogField field = sysCatFoods.getCatalogSpec().createField();
-		field.setId("name"); //column name
-		field.setFieldType(ICatalogFieldType.Text_Name);
-		field.setName("Name");
-		pm.getSystemRootCatalog().getSubCatalogPagingList().put(pm.getSystemUser(), sysCatFoods);
 		
 		//user
 		System.out.println("****USER******");
-		
+		IPartnerManager pm = SmartpadCommon.getPartnerManager();
 		IUser primaryUser;
 		primaryUser = pm.createPrimaryUser("lotte", "abc123");
 		primaryUser.setPassword("123abc");
@@ -99,6 +87,7 @@ public class SampleDataGenerator {
 		
 		//branch
 		System.out.println("****BRANCH******");
+		ICatalog sysCatFoods = pm.getSystemCatalog("foods");
 		IOperation branch = primaryUser.getBranch();
 		branch.getRootCatalog().setSystemCatalogId(sysCatFoods.getId());
 		branch.getName().setName("Lotteria");
