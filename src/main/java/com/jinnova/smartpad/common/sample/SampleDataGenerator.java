@@ -6,7 +6,6 @@ import com.jinnova.smartpad.IPage;
 import com.jinnova.smartpad.IPagingList;
 import com.jinnova.smartpad.partner.ICatalog;
 import com.jinnova.smartpad.partner.ICatalogFieldType;
-import com.jinnova.smartpad.partner.ICatalogItem;
 import com.jinnova.smartpad.partner.ICatalogItemSort;
 import com.jinnova.smartpad.partner.ICatalogSort;
 import com.jinnova.smartpad.partner.ICatalogField;
@@ -82,7 +81,7 @@ public class SampleDataGenerator {
 		sysCatFoods.getName().setName("Foods");
 		sysCatFoods.getCatalogSpec().setSpecId("foods"); //table name
 		ICatalogField field = sysCatFoods.getCatalogSpec().createField();
-		field.setId("name");
+		field.setId("name"); //column name
 		field.setFieldType(ICatalogFieldType.Text_Name);
 		field.setName("Name");
 		pm.getSystemRootCatalog().getSubCatalogPagingList().put(pm.getSystemUser(), sysCatFoods);
@@ -100,7 +99,7 @@ public class SampleDataGenerator {
 		//branch
 		System.out.println("****BRANCH******");
 		IOperation branch = primaryUser.loadBranch();
-		branch.setSystemCatalogId(sysCatFoods.getCatalogSpec().getSpecId());
+		branch.getRootCatalog().setSystemCatalogId(sysCatFoods.getCatalogSpec().getSpecId());
 		branch.getName().setName("Lotteria");
 		primaryUser.updateBranch();
 		branch = primaryUser.loadBranch();
@@ -176,7 +175,7 @@ public class SampleDataGenerator {
 		rootCat.getSubCatalogPagingList().put(primaryUser, subCat);
 		
 		//top level catalog item
-		primaryUser = pm.login("lotte", "123abc");
+		/*primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.loadBranch();
 		rootCat = branch.getRootCatalog();
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
@@ -192,7 +191,7 @@ public class SampleDataGenerator {
 		item = rootCat.getCatalogItemPagingList().newMemberInstance(primaryUser);
 		item.setField(ICatalogField.ID_NAME, "Mi goi 2");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
-		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);*/
 		
 		//promotions
 		IPromotion promo = branch.getPromotionPagingList().newMemberInstance(primaryUser);
