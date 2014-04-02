@@ -31,7 +31,7 @@ public class SampleDataGenerator {
 		SmartpadCommon.initialize();
 		IPartnerManager pm = SmartpadCommon.getPartnerManager();
 		IUser primaryUser = pm.login("lotte", "123abc");
-		IOperation branch = primaryUser.loadBranch();
+		IOperation branch = primaryUser.getBranch();
 		ICatalog rootCat = branch.getRootCatalog();
 		System.out.println("sub catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
 	}
@@ -98,12 +98,12 @@ public class SampleDataGenerator {
 		
 		//branch
 		System.out.println("****BRANCH******");
-		IOperation branch = primaryUser.loadBranch();
+		IOperation branch = primaryUser.getBranch();
 		branch.getRootCatalog().setSystemCatalogId(sysCatFoods.getCatalogSpec().getSpecId());
 		branch.getName().setName("Lotteria");
 		primaryUser.updateBranch();
-		branch = primaryUser.loadBranch();
-		System.out.println(branch.getName());
+		branch = primaryUser.getBranch();
+		System.out.println(branch.getName().getName());
 		
 		//create secondary user
 		primaryUser = pm.login("lotte", "123abc");
@@ -114,11 +114,11 @@ public class SampleDataGenerator {
 		u = pm.login("lotte2", "x");
 		System.out.println(u.getLogin());
 		
-		branch = u.loadBranch();
-		System.out.println(branch.getName());
+		branch = u.getBranch();
+		System.out.println(branch.getName().getName());
 		
 		//branch open hours
-		branch = primaryUser.loadBranch();
+		branch = primaryUser.getBranch();
 		branch.getOpenHours().setText("8AM - 10AM Every Day");
 		IScheduleSequence[] schedule = new IScheduleSequence[2];
 		schedule[0] = branch.getOpenHours().newScheduleSequenceInstance();
@@ -141,18 +141,18 @@ public class SampleDataGenerator {
 
 		u = pm.login("lotte2", "x");
 		stores = u.getStorePagingList().loadPage(u, 1).getMembers();
-		System.out.println(stores[0].getName());
+		System.out.println(stores[0].getName().getName());
 		
 		stores[0].getName().setName("Lotteria Nguyen Luong Bang");
 		primaryUser.getStorePagingList().put(primaryUser, stores[0]);
 
 		u = pm.login("lotte2", "x");
 		stores = u.getStorePagingList().loadPage(u, 1).getMembers();
-		System.out.println(stores[0].getName());
+		System.out.println(stores[0].getName().getName());
 		
 		//catalog
 		primaryUser = pm.login("lotte", "123abc");
-		branch = primaryUser.loadBranch();
+		branch = primaryUser.getBranch();
 		ICatalog rootCat = branch.getRootCatalog();
 		ICatalog cat = rootCat.getSubCatalogPagingList().newMemberInstance(primaryUser);
 		cat.getName().setName("Món điểm tâm");
@@ -163,7 +163,7 @@ public class SampleDataGenerator {
 		cat.getSubCatalogPagingList().put(primaryUser, subCat);
 
 		primaryUser = pm.login("lotte", "123abc");
-		branch = primaryUser.loadBranch();
+		branch = primaryUser.getBranch();
 		rootCat = branch.getRootCatalog();
 		System.out.println("catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
 		
@@ -200,7 +200,7 @@ public class SampleDataGenerator {
 		
 		//load promotions
 		primaryUser = pm.login("lotte", "123abc");
-		branch = primaryUser.loadBranch();
+		branch = primaryUser.getBranch();
 		IPage<IPromotion> promoPage = branch.getPromotionPagingList().loadPage(primaryUser, 1);
 		System.out.println(promoPage.getMembers()[0].getName().getName() + 
 				" (pageCount/totalCount: " + promoPage.getPageCount() + "/" + promoPage.getTotalCount() + ")");
