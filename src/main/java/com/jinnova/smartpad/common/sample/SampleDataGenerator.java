@@ -33,7 +33,7 @@ public class SampleDataGenerator {
 		IUser primaryUser = pm.login("lotte", "123abc");
 		IOperation branch = primaryUser.getBranch();
 		ICatalog rootCat = branch.getRootCatalog();
-		System.out.println("sub catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
+		System.out.println("sub catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getPageItems().length);
 	}
 
 	@SuppressWarnings({ "rawtypes" })
@@ -48,11 +48,11 @@ public class SampleDataGenerator {
 		pl = u.getStorePagingList();
 		testSorters(u, pl, IOperationSort.class);
 		
-		pl = u.getStorePagingList().loadPage(u, 1).getMembers()[0].getPromotionPagingList();
+		pl = u.getStorePagingList().loadPage(u, 1).getPageItems()[0].getPromotionPagingList();
 		testSorters(u, pl, IPromotionSort.class);
 		//testSorters(u, pl, IUserSort.class);
 		
-		ICatalog cat = u.getStorePagingList().loadPage(u, 1).getMembers()[0].getRootCatalog();
+		ICatalog cat = u.getStorePagingList().loadPage(u, 1).getPageItems()[0].getRootCatalog();
 		pl = cat.getSubCatalogPagingList();
 		testSorters(u, pl, ICatalogSort.class);
 
@@ -123,21 +123,21 @@ public class SampleDataGenerator {
 		
 		//stores
 		System.out.println("****STORES******");
-		IOperation[] stores = primaryUser.getStorePagingList().loadPage(primaryUser, 1).getMembers();
+		IOperation[] stores = primaryUser.getStorePagingList().loadPage(primaryUser, 1).getPageItems();
 		System.out.println("Stores: " + stores.length);
 		IOperation store = primaryUser.getStorePagingList().newMemberInstance(primaryUser);
 		store.getName().setName("Lotteria Nguyen Thi Thap");
 		primaryUser.getStorePagingList().put(primaryUser, store);
 
 		u = pm.login("lotte2", "x");
-		stores = u.getStorePagingList().loadPage(u, 1).getMembers();
+		stores = u.getStorePagingList().loadPage(u, 1).getPageItems();
 		System.out.println(stores[0].getName().getName());
 		
 		stores[0].getName().setName("Lotteria Nguyen Luong Bang");
 		primaryUser.getStorePagingList().put(primaryUser, stores[0]);
 
 		u = pm.login("lotte2", "x");
-		stores = u.getStorePagingList().loadPage(u, 1).getMembers();
+		stores = u.getStorePagingList().loadPage(u, 1).getPageItems();
 		System.out.println(stores[0].getName().getName());
 		
 		//catalog
@@ -155,10 +155,10 @@ public class SampleDataGenerator {
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
 		rootCat = branch.getRootCatalog();
-		System.out.println("catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
+		System.out.println("catalog count: " + rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getPageItems().length);
 		
-		subCat = rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers()[0];
-		System.out.println("catalog count: " + subCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getMembers().length);
+		subCat = rootCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getPageItems()[0];
+		System.out.println("catalog count: " + subCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getPageItems().length);
 		
 		//catalog update
 		subCat.getName().setDescription("Both warm and cold");
@@ -168,7 +168,7 @@ public class SampleDataGenerator {
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
 		rootCat = branch.getRootCatalog();
-		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageItems().length);
 		ICatalogItem item = rootCat.getCatalogItemPagingList().newMemberInstance(primaryUser);
 		item.setField(ICatalogField.ID_NAME, "Mi goi");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
@@ -177,11 +177,11 @@ public class SampleDataGenerator {
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
 		rootCat = branch.getRootCatalog();
-		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageItems().length);
 		item = rootCat.getCatalogItemPagingList().newMemberInstance(primaryUser);
 		item.setField(ICatalogField.ID_NAME, "Mi goi 2");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
-		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getMembers().length);
+		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageItems().length);
 		
 		//promotions
 		IPromotion promo = branch.getPromotionPagingList().newMemberInstance(primaryUser);
@@ -192,7 +192,7 @@ public class SampleDataGenerator {
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
 		IPage<IPromotion> promoPage = branch.getPromotionPagingList().loadPage(primaryUser, 1);
-		System.out.println(promoPage.getMembers()[0].getName().getName() + 
+		System.out.println(promoPage.getPageItems()[0].getName().getName() + 
 				" (pageCount/totalCount: " + promoPage.getPageCount() + "/" + promoPage.getTotalCount() + ")");
 	}
 
