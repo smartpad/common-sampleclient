@@ -29,7 +29,7 @@ public class SampleDataGenerator {
 	
 	static void test() throws SQLException {
 		SmartpadCommon.initialize();
-		IPartnerManager pm = SmartpadCommon.getPartnerManager();
+		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser primaryUser = pm.login("lotte", "123abc");
 		IOperation branch = primaryUser.getBranch();
 		ICatalog rootCat = branch.getRootCatalog();
@@ -39,7 +39,7 @@ public class SampleDataGenerator {
 	@SuppressWarnings({ "rawtypes" })
 	static void testSorters() throws SQLException {
 		SmartpadCommon.initialize();
-		IPartnerManager pm = SmartpadCommon.getPartnerManager();
+		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser u = pm.login("lotte", "123abc");
 		
 		IPagingList pl = pm.getUserPagingList();
@@ -73,11 +73,11 @@ public class SampleDataGenerator {
 		
 		//initialize
 		SmartpadCommon.initialize();
-		SmartpadCommon.getPartnerManager().clearDatabaseForTests();
+		SmartpadCommon.partnerManager.clearDatabaseForTests();
 		
 		//user
 		System.out.println("****USER******");
-		IPartnerManager pm = SmartpadCommon.getPartnerManager();
+		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser primaryUser;
 		primaryUser = pm.createPrimaryUser("lotte", "abc123");
 		primaryUser.setPassword("123abc");
