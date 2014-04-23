@@ -22,7 +22,7 @@ public class Sample2 {
 		SmartpadCommon.partnerManager.clearDatabaseForTests();
 		
 		IUser[] user = new IUser[1];
-		IOperation branch = createBranch(user, "lotte", "foods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
+		IOperation branch = createBranch(user, "lotte", "z_entertain_foods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
 		createMenu(user, branch, new String[][] {
 				{"Hamburger", "Grilled Chicken Value", "BIG STAR Combo", "Fish Burger", "Bánh Hot Dog", "Cheese Egg Burger"},
 				{"Chicken set", "GIFT SET 1", "GIFT SET 2", "Finger Chicken 1000gr", "Finger Chicken 200gr", "Gà rán phần gia đình (9 miếng)"},
@@ -31,10 +31,10 @@ public class Sample2 {
 				{"Dessert", "Gà Nugget", "Tôm viên", "Bánh Hot Pie"},
 				{"Drinks", "Float kem", "Kem cây", "Kem ly ", "Tornado", "7Up, Mirinda", "Nước Chanh", "Trà Nestea"},});
 		
-		branch = createBranch(user, "kfc", "foods", "KFC", "KFC Bui Bang Doan");
-		branch = createBranch(user, "mcdonald", "foods", "Mc Donald", "Mc Donald DBP");
-		branch = createBranch(user, "Popeyes", "foods", "Popeyes", "Popeyes PMY");
-		branch = createBranch(user, "coffeebean", "foods", "Coffee Beans", "Beans Le Duan", "Beans Hightech");
+		branch = createBranch(user, "kfc", "z_entertain_foods", "KFC", "KFC Bui Bang Doan");
+		branch = createBranch(user, "mcdonald", "z_entertain_foods", "Mc Donald", "Mc Donald DBP");
+		branch = createBranch(user, "Popeyes", "z_entertain_foods", "Popeyes", "Popeyes PMY");
+		branch = createBranch(user, "coffeebean", "z_entertain_foods", "Coffee Beans", "Beans Le Duan", "Beans Hightech");
 	}
 
 	private static IOperation createBranch(IUser[] user, String login, String syscatId, String name, String... storeNames) throws SQLException {
