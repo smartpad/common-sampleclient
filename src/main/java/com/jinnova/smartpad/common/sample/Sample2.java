@@ -1,5 +1,7 @@
 package com.jinnova.smartpad.common.sample;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import com.jinnova.smartpad.partner.ICatalog;
@@ -13,7 +15,7 @@ import com.jinnova.smartpad.partner.SmartpadCommon;
 
 public class Sample2 {
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, FileNotFoundException, IOException {
 		
 		//initialize
 		SmartpadCommon.initialize();
@@ -28,6 +30,7 @@ public class Sample2 {
 				{"Rice", "Cơm Thịt Heo Chiên", "Cơm gà sốt đậu ", "Cơm thịt bò"},
 				{"Dessert", "Gà Nugget", "Tôm viên", "Bánh Hot Pie"},
 				{"Drinks", "Float kem", "Kem cây", "Kem ly ", "Tornado", "7Up, Mirinda", "Nước Chanh", "Trà Nestea"},});
+		
 		branch = createBranch(user, "kfc", "foods", "KFC", "KFC Bui Bang Doan");
 		branch = createBranch(user, "mcdonald", "foods", "Mc Donald", "Mc Donald DBP");
 		branch = createBranch(user, "Popeyes", "foods", "Popeyes", "Popeyes PMY");

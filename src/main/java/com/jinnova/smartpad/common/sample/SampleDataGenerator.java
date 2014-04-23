@@ -1,5 +1,7 @@
 package com.jinnova.smartpad.common.sample;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import com.jinnova.smartpad.IPage;
@@ -21,7 +23,7 @@ import com.jinnova.smartpad.partner.SmartpadCommon;
 
 public class SampleDataGenerator {
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, FileNotFoundException, IOException {
 		generate();
 		//test();
 		//testSorters();
@@ -69,7 +71,7 @@ public class SampleDataGenerator {
 		}
 	}
 	
-	static void generate() throws SQLException {
+	static void generate() throws SQLException, FileNotFoundException, IOException {
 		
 		//initialize
 		SmartpadCommon.initialize();
