@@ -2,6 +2,7 @@ package com.jinnova.smartpad.common.sample;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import com.jinnova.smartpad.IPage;
@@ -98,8 +99,8 @@ public class SampleDataGenerator {
 		System.out.println(branch.getName().getName());
 		
 		//branch gps
-		branch.getGps().setLongitude(1);
-		branch.getGps().setLatitude(1);
+		branch.getGps().setLongitude(BigDecimal.ONE);
+		branch.getGps().setLatitude(BigDecimal.ONE);
 		primaryUser.updateBranch();
 		
 		//create secondary user
@@ -122,7 +123,7 @@ public class SampleDataGenerator {
 		schedule[0].setHours(new int[] {8, 9, 10});
 		branch.getOpenHours().setScheduleSequences(schedule);
 		primaryUser.updateBranch();
-		sure(branch.getGps().getLongitude() == 1);
+		sure(branch.getGps().getLongitude().intValue() == 1);
 		
 		//branch items
 		/*ICatalogItem item = branch.getRootCatalog().getCatalogItemPagingList().newMemberInstance(primaryUser);
@@ -142,7 +143,7 @@ public class SampleDataGenerator {
 		IOperation store = primaryUser.getStorePagingList().newEntryInstance(primaryUser);
 		store.getName().setName("Lotteria Nguyen Thi Thap");
 		primaryUser.getStorePagingList().put(primaryUser, store);
-		sure(store.getGps().getLongitude() == 1);
+		sure(store.getGps().getLongitude().intValue() == 1);
 
 		u = pm.login("lotte2", "x");
 		stores = u.getStorePagingList().loadPage(u, 1).getPageEntries();
@@ -188,7 +189,7 @@ public class SampleDataGenerator {
 		item.setField(ICatalogField.ID_NAME, "Mi goi");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1));
-		sure(item.getGps().getLongitude() == 1);
+		sure(item.getGps().getLongitude().intValue() == 1);
 
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
@@ -203,7 +204,7 @@ public class SampleDataGenerator {
 		IPromotion promo = branch.getPromotionPagingList().newEntryInstance(primaryUser);
 		promo.getName().setName("Buy one get one free");
 		branch.getPromotionPagingList().put(primaryUser, promo);
-		sure(promo.getGps().getLongitude() == 1);
+		sure(promo.getGps().getLongitude().intValue() == 1);
 		
 		//load promotions
 		primaryUser = pm.login("lotte", "123abc");
@@ -213,15 +214,15 @@ public class SampleDataGenerator {
 				" (pageCount/totalCount: " + promoPage.getPageCount() + "/" + promoPage.getTotalCount() + ")");
 		
 		//change gps
-		branch.getGps().setLongitude(2);
+		branch.getGps().setLongitude(new BigDecimal(2));
 		primaryUser.updateBranch();
-		sure(promo.getGps().getLongitude() == 1);
+		sure(promo.getGps().getLongitude().intValue() == 1);
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
 		rootCat = branch.getRootCatalog();
-		sure(rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageEntries()[0].getGps().getLongitude() == 2);
+		sure(rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageEntries()[0].getGps().getLongitude().intValue() == 2);
 		promo = branch.getPromotionPagingList().loadPage(primaryUser, 1).getPageEntries()[0];
-		sure(promo.getGps().getLongitude() == 2);
+		sure(promo.getGps().getLongitude().intValue() == 2);
 	}
 	
 	private static void sure(boolean b) {
