@@ -45,7 +45,7 @@ public class Sample2 {
 		IOperation branch = primaryUser.getBranch();
 		branch.getRootCatalog().setSystemCatalogId(syscatId);
 		branch.getName().setName(name);
-		branch.getOpenHours().setText("8AM - 10AM Every Day");
+		branch.getOpenHours().setDesc("8AM - 10AM Every Day");
 		IScheduleSequence[] schedule = new IScheduleSequence[2];
 		schedule[0] = branch.getOpenHours().newScheduleSequenceInstance();
 		schedule[0].setHours(new int[] {8, 9, 10});
