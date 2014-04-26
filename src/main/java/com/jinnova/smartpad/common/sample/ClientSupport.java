@@ -59,5 +59,37 @@ class ClientSupport {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	static void loadSyscatsInitially() {
+		try {
+			Class<?> c = Class.forName("com.jinnova.smartpad.partner.PartnerManager");
+			Method m = c.getMethod("loadSyscatsInitially");
+			m.invoke(null);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	static void copyDataToDrilling(String drillDbhost, String drillDbport, String drillDbname, String drillDblogin, String drillDbpass, String mainDbname) {
+		try {
+			Class<?> c = Class.forName("com.jinnova.smartpad.db.ScriptRunner");
+			Method m = c.getMethod("copyDataToDrilling", String.class, String.class, String.class, String.class, String.class, String.class);
+			m.invoke(null, drillDbhost, drillDbport, drillDbname, drillDblogin, drillDbpass, mainDbname);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 }

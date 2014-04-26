@@ -15,6 +15,8 @@ public class Drilling {
 		ClientSupport.createDatabase("localhost", null, "smartpad_drill", "root", "", true);
 		SmartpadCommon.initialize("localhost", null, "smartpad_drill", "root", "");
 		ClientSupport.generateSystemCatalogs();
+		ClientSupport.loadSyscatsInitially();
+		ClientSupport.copyDataToDrilling("localhost", null, "smartpad_drill", "root", "", "smartpad");
 	}
 
 }
