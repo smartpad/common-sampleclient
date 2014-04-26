@@ -18,8 +18,10 @@ public class Sample2 {
 	public static void main(String[] args) throws SQLException, FileNotFoundException, IOException {
 		
 		//initialize
-		SmartpadCommon.initialize();
-		SmartpadCommon.partnerManager.clearDatabaseForTests();
+		ClientSupport.dropDatabaseIfExists("localhost", null, "smartpad", "root", "");
+		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "", false);
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "");
+		ClientSupport.generateSystemCatalogs();
 		
 		IUser[] user = new IUser[1];
 		IOperation branch = createBranch(user, "lotte", "z_entertain_foods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");

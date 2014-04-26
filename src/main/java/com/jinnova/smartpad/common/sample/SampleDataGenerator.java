@@ -31,7 +31,7 @@ public class SampleDataGenerator {
 	}
 	
 	static void test() throws SQLException {
-		SmartpadCommon.initialize();
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "");
 		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser primaryUser = pm.login("lotte", "123abc");
 		IOperation branch = primaryUser.getBranch();
@@ -41,7 +41,7 @@ public class SampleDataGenerator {
 
 	@SuppressWarnings({ "rawtypes" })
 	static void testSorters() throws SQLException {
-		SmartpadCommon.initialize();
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "");
 		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser u = pm.login("lotte", "123abc");
 		
@@ -75,8 +75,10 @@ public class SampleDataGenerator {
 	static void generate() throws SQLException, FileNotFoundException, IOException {
 		
 		//initialize
-		SmartpadCommon.initialize();
-		SmartpadCommon.partnerManager.clearDatabaseForTests();
+		ClientSupport.dropDatabaseIfExists("localhost", null, "smartpad", "root", "");
+		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "", false);
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "");
+		ClientSupport.generateSystemCatalogs();
 		
 		//user
 		System.out.println("****USER******");
