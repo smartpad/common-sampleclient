@@ -3,11 +3,13 @@ package com.jinnova.smartpad.common.sample;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 import com.jinnova.smartpad.partner.ICatalog;
 import com.jinnova.smartpad.partner.ICatalogField;
 import com.jinnova.smartpad.partner.ICatalogItem;
 import com.jinnova.smartpad.partner.IOperation;
+import com.jinnova.smartpad.partner.IPromotion;
 import com.jinnova.smartpad.partner.IScheduleSequence;
 import com.jinnova.smartpad.partner.IUser;
 import com.jinnova.smartpad.partner.IPartnerManager;
@@ -25,6 +27,8 @@ public class Sample2 {
 		
 		IUser[] user = new IUser[1];
 		IOperation branch = createBranch(user, "lotte", "z_entertain_foods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
+		IOperation branchLotte = branch;
+		IUser userLotte = user[0];
 		createMenu(user, branch, new String[][] {
 				{"Hamburger", "Grilled Chicken Value", "BIG STAR Combo", "Fish Burger", "Bánh Hot Dog", "Cheese Egg Burger"},
 				{"Chicken set", "GIFT SET 1", "GIFT SET 2", "Finger Chicken 1000gr", "Finger Chicken 200gr", "Gà rán phần gia đình (9 miếng)"},
@@ -37,6 +41,9 @@ public class Sample2 {
 		branch = createBranch(user, "mcdonald", "z_entertain_foods", "Mc Donald", "Mc Donald DBP");
 		branch = createBranch(user, "Popeyes", "z_entertain_foods", "Popeyes", "Popeyes PMY");
 		branch = createBranch(user, "coffeebean", "z_entertain_foods", "Coffee Beans", "Beans Le Duan", "Beans Hightech");
+		
+		createPromotion(branchLotte, userLotte, "CT KM DAILY BUZZ");
+		createPromotion(branchLotte, userLotte, "YOUR BIGSTAR-YOUR WOMEN", Calendar.MARCH);
 	}
 
 	private static IOperation createBranch(IUser[] user, String login, String syscatId, String name, String... storeNames) throws SQLException {
@@ -45,7 +52,7 @@ public class Sample2 {
 		primaryUser = pm.createPrimaryUser(login, login);
 		pm.getUserPagingList().put(primaryUser, primaryUser);
 		IOperation branch = primaryUser.getBranch();
-		branch.getRootCatalog().setSystemCatalogId(syscatId);
+		branch.setSystemCatalogId(syscatId);
 		branch.getName().setName(name);
 		branch.getOpenHours().setDesc("8AM - 10AM Every Day");
 		IScheduleSequence[] schedule = new IScheduleSequence[2];
@@ -77,6 +84,18 @@ public class Sample2 {
 				cat.getCatalogItemPagingList().put(user[0], item);
 			}
 		}
+	}
+
+	private static void createPromotion(IOperation op, IUser u, String name, int... months) throws SQLException {
+		IPromotion p = op.getPromotionPagingList().newEntryInstance(u);
+		p.getName().setName(name);
+		if (months != null && months.length > 0) {
+			IScheduleSequence schedule = p.getSchedule().newScheduleSequenceInstance();
+			schedule.setYears(new int[] {2014});
+			schedule.setMonths(months);
+			p.getSchedule().setScheduleSequences(new IScheduleSequence[] {schedule});
+		}
+		op.getPromotionPagingList().put(u, p);
 	}
 
 }
