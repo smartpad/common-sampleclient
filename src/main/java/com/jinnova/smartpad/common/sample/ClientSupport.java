@@ -48,7 +48,7 @@ class ClientSupport {
 		try {
 			Class<?> c = Class.forName("com.jinnova.smartpad.partner.SystemCatalogGenrator");
 			Method m = c.getMethod("generate");
-			m.invoke(null);
+			m.invoke(c.newInstance());
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		} catch (NoSuchMethodException e) {
@@ -56,6 +56,10 @@ class ClientSupport {
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
 			throw new RuntimeException(e);
 		}
 	}
