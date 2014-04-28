@@ -92,7 +92,7 @@ public class SampleDataGenerator {
 		
 		//branch
 		System.out.println("****BRANCH******");
-		ICatalog sysCatFoods = pm.getSystemCatalog("z_entertain_foods");
+		ICatalog sysCatFoods = pm.getSystemCatalog("x_entertain_foods");
 		IOperation branch = primaryUser.getBranch();
 		branch.getRootCatalog().setSystemCatalogId(sysCatFoods.getId());
 		branch.getName().setName("Lotteria");
