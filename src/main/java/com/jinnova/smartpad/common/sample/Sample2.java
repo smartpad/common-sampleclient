@@ -29,7 +29,7 @@ public class Sample2 {
 		IOperation branch = createBranch(user, "lotte", "z_entertain_foods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
 		IOperation branchLotte = branch;
 		IUser userLotte = user[0];
-		createMenu(user, branch, new String[][] {
+		createMenu(userLotte, branchLotte, new String[][] {
 				{"Hamburger", "Grilled Chicken Value", "BIG STAR Combo", "Fish Burger", "Bánh Hot Dog", "Cheese Egg Burger"},
 				{"Chicken set", "GIFT SET 1", "GIFT SET 2", "Finger Chicken 1000gr", "Finger Chicken 200gr", "Gà rán phần gia đình (9 miếng)"},
 				{"Chicken", "Gà HS phần", "Gà HS 1 miếng", "Gà rán phần ", "Gà viên"},
@@ -37,7 +37,17 @@ public class Sample2 {
 				{"Dessert", "Gà Nugget", "Tôm viên", "Bánh Hot Pie"},
 				{"Drinks", "Float kem", "Kem cây", "Kem ly ", "Tornado", "7Up, Mirinda", "Nước Chanh", "Trà Nestea"},});
 		
-		branch = createBranch(user, "kfc", "z_entertain_foods", "KFC", "KFC Bui Bang Doan");
+		branch = createBranch(user, "kfc", "z_entertain_foods", "KFC", "KFC Bui Bang Doan", "KFC Nguyễn trải", "KFC Trần Hưng Đạo");
+		IOperation branchKfc = branch;
+		IUser userKfc = user[0];
+		createMenu(userKfc, branchKfc, new String[][] {
+				{"Combo", "Combo RIO", "Combo gà rán truyền thống A", "Combo gà rán truyền thống B","Combo bơ gơ zinger"},
+				{"Phần ăn trẻ em", "Chicky 01", "Chicky 03", "Chicky 04", "Chicky 05"},
+				{"Gà rán truyền thống", "1 miếng", "3 miếng", "6 miếng", "9 miếng", "18 miếng"},
+				{"Thức ăn nhẹ", "Gà giòn không xương", "Cánh gà giòn cay (3 miếng)", "Bơ gơ tôm", "3 miếng cá KFC"},
+				{"Thức ăn phụ", "Khoai tây chiên (vừa)", "Khoai tây nghiền (vừa)", "Khoai tây nghiền (lớn)"},
+				{"Tráng miệng & Giải khát", "Kem cone KFC", "Bánh egg tart", "Kem phủ sô cô la"},});
+		
 		branch = createBranch(user, "mcdonald", "z_entertain_foods", "Mc Donald", "Mc Donald DBP");
 		branch = createBranch(user, "Popeyes", "z_entertain_foods", "Popeyes", "Popeyes PMY");
 		branch = createBranch(user, "coffeebean", "z_entertain_foods", "Coffee Beans", "Beans Le Duan", "Beans Hightech");
@@ -71,17 +81,17 @@ public class Sample2 {
 		return branch;
 	}
 	
-	private static void createMenu(IUser[] user, IOperation branch, String[][] s) throws SQLException {
+	private static void createMenu(IUser user, IOperation branch, String[][] s) throws SQLException {
 		ICatalog rootCat = branch.getRootCatalog();
 		for (String[] menu : s) {
-			ICatalog cat = rootCat.getSubCatalogPagingList().newEntryInstance(user[0]);
+			ICatalog cat = rootCat.getSubCatalogPagingList().newEntryInstance(user);
 			cat.getName().setName(menu[0]);
-			rootCat.getSubCatalogPagingList().put(user[0], cat);
+			rootCat.getSubCatalogPagingList().put(user, cat);
 			for (int i = 1; i < menu.length; i++) {
 				String one = menu [i];
-				ICatalogItem item = cat.getCatalogItemPagingList().newEntryInstance(user[0]);
+				ICatalogItem item = cat.getCatalogItemPagingList().newEntryInstance(user);
 				item.setField(ICatalogField.ID_NAME, one);
-				cat.getCatalogItemPagingList().put(user[0], item);
+				cat.getCatalogItemPagingList().put(user, item);
 			}
 		}
 	}
