@@ -95,10 +95,10 @@ public class SampleDataGenerator {
 		ICatalog sysCatFoods = pm.getSystemCatalog("z_entertain_foods");
 		IOperation branch = primaryUser.getBranch();
 		branch.getRootCatalog().setSystemCatalogId(sysCatFoods.getId());
-		branch.getName().setName("Lotteria");
+		branch.setName("Lotteria");
 		primaryUser.updateBranch();
 		branch = primaryUser.getBranch();
-		System.out.println(branch.getName().getName());
+		System.out.println(branch.getName());
 		
 		//branch gps
 		branch.getGps().setLongitude(BigDecimal.ONE);
@@ -115,7 +115,7 @@ public class SampleDataGenerator {
 		System.out.println(u.getLogin());
 		
 		branch = u.getBranch();
-		System.out.println(branch.getName().getName());
+		System.out.println(branch.getName());
 		
 		//branch open hours
 		branch = primaryUser.getBranch();
@@ -143,31 +143,31 @@ public class SampleDataGenerator {
 		IOperation[] stores = primaryUser.getStorePagingList().loadPage(primaryUser, 1).getPageEntries();
 		System.out.println("Stores: " + stores.length);
 		IOperation store = primaryUser.getStorePagingList().newEntryInstance(primaryUser);
-		store.getName().setName("Lotteria Nguyen Thi Thap");
+		store.setName("Lotteria Nguyen Thi Thap");
 		primaryUser.getStorePagingList().put(primaryUser, store);
 		sure(store.getGps().getLongitude().intValue() == 1);
 
 		u = pm.login("lotte2", "x");
 		stores = u.getStorePagingList().loadPage(u, 1).getPageEntries();
-		System.out.println(stores[0].getName().getName());
+		System.out.println(stores[0].getName());
 		
-		stores[0].getName().setName("Lotteria Nguyen Luong Bang");
+		stores[0].setName("Lotteria Nguyen Luong Bang");
 		primaryUser.getStorePagingList().put(primaryUser, stores[0]);
 
 		u = pm.login("lotte2", "x");
 		stores = u.getStorePagingList().loadPage(u, 1).getPageEntries();
-		System.out.println(stores[0].getName().getName());
+		System.out.println(stores[0].getName());
 		
 		//catalog
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
 		ICatalog rootCat = branch.getRootCatalog();
 		ICatalog cat = rootCat.getSubCatalogPagingList().newEntryInstance(primaryUser);
-		cat.getName().setName("Món điểm tâm");
+		cat.setName("Món điểm tâm");
 		rootCat.getSubCatalogPagingList().put(primaryUser, cat);
 		
 		ICatalog subCat = cat.getSubCatalogPagingList().newEntryInstance(primaryUser);
-		subCat.getName().setName("Quick breakfast");
+		subCat.setName("Quick breakfast");
 		cat.getSubCatalogPagingList().put(primaryUser, subCat);
 
 		primaryUser = pm.login("lotte", "123abc");
@@ -179,7 +179,7 @@ public class SampleDataGenerator {
 		System.out.println("catalog count: " + subCat.getSubCatalogPagingList().loadPage(primaryUser, 1).getPageEntries().length);
 		
 		//catalog update
-		subCat.getName().setDescription("Both warm and cold");
+		subCat.getDesc().setDescription("Both warm and cold");
 		rootCat.getSubCatalogPagingList().put(primaryUser, subCat);
 		
 		//top level catalog item
@@ -204,7 +204,7 @@ public class SampleDataGenerator {
 		
 		//promotions
 		IPromotion promo = branch.getPromotionPagingList().newEntryInstance(primaryUser);
-		promo.getName().setName("Buy one get one free");
+		promo.setName("Buy one get one free");
 		branch.getPromotionPagingList().put(primaryUser, promo);
 		sure(promo.getGps().getLongitude().intValue() == 1);
 		
@@ -212,7 +212,7 @@ public class SampleDataGenerator {
 		primaryUser = pm.login("lotte", "123abc");
 		branch = primaryUser.getBranch();
 		IPage<IPromotion> promoPage = branch.getPromotionPagingList().loadPage(primaryUser, 1);
-		System.out.println(promoPage.getPageEntries()[0].getName().getName() + 
+		System.out.println(promoPage.getPageEntries()[0].getName() + 
 				" (pageCount/totalCount: " + promoPage.getPageCount() + "/" + promoPage.getTotalCount() + ")");
 		
 		//change gps

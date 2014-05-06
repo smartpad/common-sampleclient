@@ -26,7 +26,7 @@ public class Sample2 {
 		ClientSupport.generateSystemCatalogs();
 		
 		IUser[] user = new IUser[1];
-		IOperation branch = createBranch(user, "lotte", "z_entertain_foods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
+		IOperation branch = createBranch(user, "lotte", "z_entertain_foods_fastfoods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
 		IOperation branchLotte = branch;
 		IUser userLotte = user[0];
 		createMenu(userLotte, branchLotte, new String[][] {
@@ -37,7 +37,7 @@ public class Sample2 {
 				{"Dessert", "Gà Nugget", "Tôm viên", "Bánh Hot Pie"},
 				{"Drinks", "Float kem", "Kem cây", "Kem ly ", "Tornado", "7Up, Mirinda", "Nước Chanh", "Trà Nestea"},});
 		
-		branch = createBranch(user, "kfc", "z_entertain_foods", "KFC", "KFC Bui Bang Doan", "KFC Nguyễn trải", "KFC Trần Hưng Đạo");
+		branch = createBranch(user, "kfc", "z_entertain_foods_fastfoods", "KFC", "KFC Bui Bang Doan", "KFC Nguyễn trải", "KFC Trần Hưng Đạo");
 		IOperation branchKfc = branch;
 		IUser userKfc = user[0];
 		createMenu(userKfc, branchKfc, new String[][] {
@@ -48,9 +48,9 @@ public class Sample2 {
 				{"Thức ăn phụ", "Khoai tây chiên (vừa)", "Khoai tây nghiền (vừa)", "Khoai tây nghiền (lớn)"},
 				{"Tráng miệng & Giải khát", "Kem cone KFC", "Bánh egg tart", "Kem phủ sô cô la"},});
 		
-		branch = createBranch(user, "mcdonald", "z_entertain_foods", "Mc Donald", "Mc Donald DBP");
-		branch = createBranch(user, "Popeyes", "z_entertain_foods", "Popeyes", "Popeyes PMY");
-		branch = createBranch(user, "coffeebean", "z_entertain_foods", "Coffee Beans", "Beans Le Duan", "Beans Hightech");
+		branch = createBranch(user, "mcdonald", "z_entertain_foods_fastfoods", "Mc Donald", "Mc Donald DBP");
+		branch = createBranch(user, "Popeyes", "z_entertain_foods_fastfoods", "Popeyes", "Popeyes PMY");
+		branch = createBranch(user, "coffeebean", "z_entertain_foods_fastfoods", "Coffee Beans", "Beans Le Duan", "Beans Hightech");
 		
 		createPromotion(branchLotte, userLotte, "CT KM DAILY BUZZ");
 		createPromotion(branchLotte, userLotte, "YOUR BIGSTAR-YOUR WOMEN", Calendar.MARCH);
@@ -63,7 +63,7 @@ public class Sample2 {
 		pm.getUserPagingList().put(primaryUser, primaryUser);
 		IOperation branch = primaryUser.getBranch();
 		branch.setSystemCatalogId(syscatId);
-		branch.getName().setName(name);
+		branch.setName(name);
 		branch.getOpenHours().setDesc("8AM - 10AM Every Day");
 		IScheduleSequence[] schedule = new IScheduleSequence[2];
 		schedule[0] = branch.getOpenHours().newScheduleSequenceInstance();
@@ -74,7 +74,7 @@ public class Sample2 {
 		primaryUser = pm.login(login, login);
 		for (String s : storeNames) {
 			IOperation store = primaryUser.getStorePagingList().newEntryInstance(primaryUser);
-			store.getName().setName(s);
+			store.setName(s);
 			primaryUser.getStorePagingList().put(primaryUser, store);
 		}
 		user[0] = primaryUser;
@@ -85,7 +85,7 @@ public class Sample2 {
 		ICatalog rootCat = branch.getRootCatalog();
 		for (String[] menu : s) {
 			ICatalog cat = rootCat.getSubCatalogPagingList().newEntryInstance(user);
-			cat.getName().setName(menu[0]);
+			cat.setName(menu[0]);
 			rootCat.getSubCatalogPagingList().put(user, cat);
 			for (int i = 1; i < menu.length; i++) {
 				String one = menu [i];
@@ -98,7 +98,7 @@ public class Sample2 {
 
 	private static void createPromotion(IOperation op, IUser u, String name, int... months) throws SQLException {
 		IPromotion p = op.getPromotionPagingList().newEntryInstance(u);
-		p.getName().setName(name);
+		p.setName(name);
 		if (months != null && months.length > 0) {
 			IScheduleSequence schedule = p.getSchedule().newScheduleSequenceInstance();
 			schedule.setYears(new int[] {2014});
