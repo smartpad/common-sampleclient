@@ -24,6 +24,7 @@ public class Sample2 {
 		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "", false);
 		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "");
 		ClientSupport.generateSystemCatalogs();
+		ClientSupport.createSystemItems();
 		
 		IUser[] user = new IUser[1];
 		IOperation branch = createBranch(user, "lotte", "z_entertain_foods_fastfoods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
@@ -107,5 +108,4 @@ public class Sample2 {
 		}
 		op.getPromotionPagingList().put(u, p);
 	}
-
 }

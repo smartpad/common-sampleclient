@@ -95,5 +95,25 @@ class ClientSupport {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	static void createSystemItems() {
+		try {
+			Class<?> c = Class.forName("com.jinnova.smartpad.partner.SystemCatalogGenrator");
+			Method m = c.getMethod("createSystemItems");
+			m.invoke(c.newInstance());
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 }
