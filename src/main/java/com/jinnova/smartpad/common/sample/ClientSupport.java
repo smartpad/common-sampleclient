@@ -96,10 +96,10 @@ class ClientSupport {
 		}
 	}
 	
-	static void createSystemItems() {
+	static void createItems() {
 		try {
 			Class<?> c = Class.forName("com.jinnova.smartpad.partner.SystemCatalogGenrator");
-			Method m = c.getMethod("createSystemItems");
+			Method m = c.getMethod("createItems");
 			m.invoke(c.newInstance());
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
