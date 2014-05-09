@@ -188,7 +188,7 @@ public class SampleDataGenerator {
 		rootCat = branch.getRootCatalog();
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageEntries().length);
 		ICatalogItem item = rootCat.getCatalogItemPagingList().newEntryInstance(primaryUser);
-		item.setField(ICatalogField.ID_NAME, "Mi goi");
+		item.setField(ICatalogField.F_NAME, "Mi goi");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1));
 		sure(item.getGps().getLongitude().intValue() == 1);
@@ -198,7 +198,7 @@ public class SampleDataGenerator {
 		rootCat = branch.getRootCatalog();
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageEntries().length);
 		item = rootCat.getCatalogItemPagingList().newEntryInstance(primaryUser);
-		item.setField(ICatalogField.ID_NAME, "Mi goi 2");
+		item.setField(ICatalogField.F_NAME, "Mi goi 2");
 		rootCat.getCatalogItemPagingList().put(primaryUser, item);
 		System.out.println("top level item count: " + rootCat.getCatalogItemPagingList().loadPage(primaryUser, 1).getPageEntries().length);
 		

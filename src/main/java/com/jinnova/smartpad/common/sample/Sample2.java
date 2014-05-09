@@ -24,6 +24,7 @@ public class Sample2 {
 		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "root", false);
 		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "root");
 		ClientSupport.generateSystemCatalogs();
+		ClientSupport.createItems();
 		
 		IUser[] user = new IUser[1];
 		IOperation branch = createBranch(user, "lotte", "z_entertain_foods_fastfoods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
@@ -90,7 +91,7 @@ public class Sample2 {
 			for (int i = 1; i < menu.length; i++) {
 				String one = menu [i];
 				ICatalogItem item = cat.getCatalogItemPagingList().newEntryInstance(user);
-				item.setField(ICatalogField.ID_NAME, one);
+				item.setField(ICatalogField.F_NAME, one);
 				cat.getCatalogItemPagingList().put(user, item);
 			}
 		}
@@ -107,5 +108,4 @@ public class Sample2 {
 		}
 		op.getPromotionPagingList().put(u, p);
 	}
-
 }
