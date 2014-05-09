@@ -20,9 +20,9 @@ public class Sample2 {
 	public static void main(String[] args) throws SQLException, FileNotFoundException, IOException {
 		
 		//initialize
-		ClientSupport.dropDatabaseIfExists("localhost", null, "smartpad", "root", "");
-		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "", false);
-		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "");
+		ClientSupport.dropDatabaseIfExists("localhost", null, "smartpad", "root", "root");
+		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "root", false);
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "root");
 		ClientSupport.generateSystemCatalogs();
 		
 		IUser[] user = new IUser[1];
