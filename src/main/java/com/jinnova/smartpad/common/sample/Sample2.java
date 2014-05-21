@@ -1,5 +1,9 @@
 package com.jinnova.smartpad.common.sample;
 
+import static com.jinnova.smartpad.partner.IDetailManager.*;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -8,6 +12,7 @@ import java.util.Calendar;
 import com.jinnova.smartpad.partner.ICatalog;
 import com.jinnova.smartpad.partner.ICatalogField;
 import com.jinnova.smartpad.partner.ICatalogItem;
+import com.jinnova.smartpad.partner.IDetailManager;
 import com.jinnova.smartpad.partner.IOperation;
 import com.jinnova.smartpad.partner.IPromotion;
 import com.jinnova.smartpad.partner.IScheduleSequence;
@@ -22,7 +27,7 @@ public class Sample2 {
 		//initialize
 		ClientSupport.dropDatabaseIfExists("localhost", null, "smartpad", "root", "");
 		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "", false);
-		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "");
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "", "../app-server/imaging/in-queue", "../app-server/imaging/root");
 		ClientSupport.generateSystemCatalogs();
 		ClientSupport.createItems();
 		
@@ -37,6 +42,7 @@ public class Sample2 {
 				{"Rice", "Cơm Thịt Heo Chiên", "Cơm gà sốt đậu ", "Cơm thịt bò"},
 				{"Dessert", "Gà Nugget", "Tôm viên", "Bánh Hot Pie"},
 				{"Drinks", "Float kem", "Kem cây", "Kem ly ", "Tornado", "7Up, Mirinda", "Nước Chanh", "Trà Nestea"},});
+		
 		
 		branch = createBranch(user, "kfc", "z_entertain_foods_fastfoods", "KFC", "KFC Bui Bang Doan", "KFC Nguyễn trải", "KFC Trần Hưng Đạo");
 		IOperation branchKfc = branch;
@@ -57,7 +63,7 @@ public class Sample2 {
 		createPromotion(branchLotte, userLotte, "YOUR BIGSTAR-YOUR WOMEN", Calendar.MARCH);
 	}
 
-	private static IOperation createBranch(IUser[] user, String login, String syscatId, String name, String... storeNames) throws SQLException {
+	private static IOperation createBranch(IUser[] user, String login, String syscatId, String name, String... storeNames) throws SQLException, FileNotFoundException, IOException {
 		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser primaryUser;
 		primaryUser = pm.createPrimaryUser(login, login);
@@ -79,7 +85,19 @@ public class Sample2 {
 			primaryUser.getStorePagingList().put(primaryUser, store);
 		}
 		user[0] = primaryUser;
+		
+		setBranchLogoSquare(login);
 		return branch;
+	}
+	
+	private static void setBranchLogoSquare(String branchId) throws FileNotFoundException, IOException {
+		IPartnerManager pm = SmartpadCommon.partnerManager;
+		File file = new File("images/" + IMG_LOGO_SQUARE + "/" + branchId + ".png");
+		//System.out.println(file.getAbsolutePath());
+		if (!file.exists()) {
+			return;
+		}
+		pm.setImage(IDetailManager.TYPENAME_BRANCH, null, branchId, IMG_LOGO_SQUARE, new FileInputStream(file));
 	}
 	
 	private static void createMenu(IUser user, IOperation branch, String[][] s) throws SQLException {
