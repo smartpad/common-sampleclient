@@ -31,7 +31,7 @@ public class SampleDataGenerator {
 	}
 	
 	static void test() throws SQLException {
-		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "root");
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "", "../app-server/imaging/in-queue", "../app-server/imaging/root");
 		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser primaryUser = pm.login("lotte", "123abc");
 		IOperation branch = primaryUser.getBranch();
@@ -41,7 +41,7 @@ public class SampleDataGenerator {
 
 	@SuppressWarnings({ "rawtypes" })
 	static void testSorters() throws SQLException {
-		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "root");
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "", "../app-server/imaging/in-queue", "../app-server/imaging/root");
 		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser u = pm.login("lotte", "123abc");
 		
@@ -75,9 +75,9 @@ public class SampleDataGenerator {
 	static void generate() throws SQLException, FileNotFoundException, IOException {
 		
 		//initialize
-		ClientSupport.dropDatabaseIfExists("localhost", null, "smartpad", "root", "root");
-		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "root", false);
-		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "root");
+		ClientSupport.dropDatabaseIfExists("localhost", null, "smartpad", "root", "");
+		ClientSupport.createDatabase("localhost", null, "smartpad", "root", "", false);
+		SmartpadCommon.initialize("localhost", null, "smartpad", "root", "", "../app-server/imaging/in-queue", "../app-server/imaging/root");
 		ClientSupport.generateSystemCatalogs();
 		
 		//user
