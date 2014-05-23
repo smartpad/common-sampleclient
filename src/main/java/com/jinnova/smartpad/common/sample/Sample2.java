@@ -12,7 +12,6 @@ import java.util.Calendar;
 import com.jinnova.smartpad.partner.ICatalog;
 import com.jinnova.smartpad.partner.ICatalogField;
 import com.jinnova.smartpad.partner.ICatalogItem;
-import com.jinnova.smartpad.partner.IDetailManager;
 import com.jinnova.smartpad.partner.IOperation;
 import com.jinnova.smartpad.partner.IPromotion;
 import com.jinnova.smartpad.partner.IScheduleSequence;
@@ -72,6 +71,7 @@ public class Sample2 {
 		branch.setSystemCatalogId(syscatId);
 		branch.setName(name);
 		branch.getOpenHours().setDesc("8AM - 10AM Every Day");
+		setBranchLogoSquare(branch);
 		IScheduleSequence[] schedule = new IScheduleSequence[2];
 		schedule[0] = branch.getOpenHours().newScheduleSequenceInstance();
 		schedule[0].setHours(new int[] {8, 9, 10});
@@ -86,18 +86,18 @@ public class Sample2 {
 		}
 		user[0] = primaryUser;
 		
-		setBranchLogoSquare(login);
 		return branch;
 	}
 	
-	private static void setBranchLogoSquare(String branchId) throws FileNotFoundException, IOException {
-		IPartnerManager pm = SmartpadCommon.partnerManager;
-		File file = new File("images/" + IMG_LOGO_SQUARE + "/" + branchId + ".png");
+	private static void setBranchLogoSquare(IOperation branch) throws FileNotFoundException, IOException {
+		
+		File file = new File("images/" + IMG_LOGO_SQUARE + "/" + branch.getId() + ".png");
 		//System.out.println(file.getAbsolutePath());
 		if (!file.exists()) {
 			return;
 		}
-		pm.setImage(IDetailManager.TYPENAME_BRANCH, null, branchId, IMG_LOGO_SQUARE, new FileInputStream(file));
+		//pm.setImage(IDetailManager.TYPENAME_BRANCH, null, branchId, IMG_LOGO_SQUARE, new FileInputStream(file));
+		branch.getDesc().setImage(IMG_LOGO_SQUARE, new FileInputStream(file));
 	}
 	
 	private static void createMenu(IUser user, IOperation branch, String[][] s) throws SQLException {
