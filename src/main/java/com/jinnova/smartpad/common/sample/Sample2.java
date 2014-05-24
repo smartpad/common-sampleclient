@@ -31,7 +31,8 @@ public class Sample2 {
 		ClientSupport.createItems();
 		
 		IUser[] user = new IUser[1];
-		IOperation branch = createBranch(user, "lotte", "z_entertain_foods_fastfoods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
+		IOperation branch = createNormalSeller(user, "ngoc", "z_household");
+		branch = createBranch(user, "lotte", "z_entertain_foods_fastfoods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
 		IOperation branchLotte = branch;
 		IUser userLotte = user[0];
 		createMenu(userLotte, branchLotte, new String[][] {
@@ -60,6 +61,18 @@ public class Sample2 {
 		
 		createPromotion(branchLotte, userLotte, "CT KM DAILY BUZZ");
 		createPromotion(branchLotte, userLotte, "YOUR BIGSTAR-YOUR WOMEN", Calendar.MARCH);
+	}
+
+	private static IOperation createNormalSeller(IUser[] user, String login, String syscatId) throws SQLException, FileNotFoundException, IOException {
+		IPartnerManager pm = SmartpadCommon.partnerManager;
+		IUser primaryUser;
+		primaryUser = pm.createPrimaryUser(login, login);
+		//pm.getUserPagingList().put(primaryUser, primaryUser);
+		//primaryUser.createBranch();
+		IOperation branch = primaryUser.getBranch();
+		branch.setSystemCatalogId(syscatId);
+		primaryUser.updateBranch();
+		return branch;
 	}
 
 	private static IOperation createBranch(IUser[] user, String login, String syscatId, String name, String... storeNames) throws SQLException, FileNotFoundException, IOException {
