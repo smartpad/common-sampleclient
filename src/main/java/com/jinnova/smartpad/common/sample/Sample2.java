@@ -66,7 +66,8 @@ public class Sample2 {
 		IPartnerManager pm = SmartpadCommon.partnerManager;
 		IUser primaryUser;
 		primaryUser = pm.createPrimaryUser(login, login);
-		pm.getUserPagingList().put(primaryUser, primaryUser);
+		//pm.getUserPagingList().put(primaryUser, primaryUser);
+		//primaryUser.createBranch();
 		IOperation branch = primaryUser.getBranch();
 		branch.setSystemCatalogId(syscatId);
 		branch.setName(name);
