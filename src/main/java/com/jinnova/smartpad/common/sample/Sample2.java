@@ -85,7 +85,9 @@ public class Sample2 {
 		branch.setSystemCatalogId(syscatId);
 		branch.setName(name);
 		branch.getOpenHours().setDesc("8AM - 10AM Every Day");
-		setBranchLogoSquare(branch);
+		setBranchLogo(IMG_LOGO_SQUARE, branch);
+		setBranchLogo(IMG_LOGO_TALLRECT, branch);
+		setBranchLogo(IMG_LOGO_WIDERECT, branch);
 		IScheduleSequence[] schedule = new IScheduleSequence[2];
 		schedule[0] = branch.getOpenHours().newScheduleSequenceInstance();
 		schedule[0].setHours(new int[] {8, 9, 10});
@@ -103,15 +105,15 @@ public class Sample2 {
 		return branch;
 	}
 	
-	private static void setBranchLogoSquare(IOperation branch) throws FileNotFoundException, IOException {
+	private static void setBranchLogo(String imageId, IOperation branch) throws FileNotFoundException, IOException {
 		
-		File file = new File("images/" + IMG_LOGO_SQUARE + "/" + branch.getId() + ".png");
+		File file = new File("images/" + imageId + "/" + branch.getId() + ".png");
 		//System.out.println(file.getAbsolutePath());
 		if (!file.exists()) {
 			return;
 		}
 		//pm.setImage(IDetailManager.TYPENAME_BRANCH, null, branchId, IMG_LOGO_SQUARE, new FileInputStream(file));
-		branch.getDesc().setImage(IMG_LOGO_SQUARE, new FileInputStream(file));
+		branch.getDesc().setImage(imageId, new FileInputStream(file));
 	}
 	
 	private static void createMenu(IUser user, IOperation branch, String[][] s) throws SQLException {
