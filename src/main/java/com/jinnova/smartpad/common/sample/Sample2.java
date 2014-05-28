@@ -31,8 +31,7 @@ public class Sample2 {
 		ClientSupport.createItems();
 		
 		IUser[] user = new IUser[1];
-		IOperation branch = createNormalSeller(user, "ngoc", "z_household");
-		branch = createBranch(user, "lotte", "z_entertain_foods_fastfoods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
+		IOperation branch = createBranch(user, "lotte", "z_entertain_foods_fastfoods", "Lotteria", "Lotteria Nguyen Thi Thap", "Lotte Ng Van Cu");
 		IOperation branchLotte = branch;
 		IUser userLotte = user[0];
 		createMenu(userLotte, branchLotte, new String[][] {
@@ -61,18 +60,32 @@ public class Sample2 {
 		
 		createPromotion(branchLotte, userLotte, "CT KM DAILY BUZZ");
 		createPromotion(branchLotte, userLotte, "YOUR BIGSTAR-YOUR WOMEN", Calendar.MARCH);
-	}
-
-	private static IOperation createNormalSeller(IUser[] user, String login, String syscatId) throws SQLException, FileNotFoundException, IOException {
-		IPartnerManager pm = SmartpadCommon.partnerManager;
-		IUser primaryUser;
-		primaryUser = pm.createPrimaryUser(login, login);
-		//pm.getUserPagingList().put(primaryUser, primaryUser);
-		//primaryUser.createBranch();
-		IOperation branch = primaryUser.getBranch();
-		branch.setSystemCatalogId(syscatId);
-		primaryUser.updateBranch();
-		return branch;
+		
+		//------- Add some fake data for debug---------------
+		  
+		  branch = createBranch(user, "b1", "z_entertain", "B1", "B1 SaiGon");
+		  IOperation branch1 = branch;
+		  IUser user1 = user[0];
+		  createMenu(user1, branch1, "branch1", new String[][] {
+		    {"B1-Cat1", "B1-Cat1-Item1", "B1-Cat1-Item2", "B1-Cat1-Item3", "B1-Cat1-Item4"},
+		    {"B1-Cat2", "B1-Cat2-Item1", "B1-Cat2-Item2", "B1-Cat2-Item3", "B1-Cat2-Item4", "B1-Cat2-Item5", "B1-Cat2-Item6"},
+		  });
+		  
+		  branch = createBranch(user, "b2", "z_entertain_foods", "B2", "B2 SaiGon");
+		  IOperation branch2 = branch;
+		  IUser user2 = user[0];
+		  createMenu(user2, branch2, "branch2", new String[][] {
+		    {"B2-Cat1", "B2-Cat1-Item1", "B2-Cat1-Item2", "B2-Cat1-Item3", "B2-Cat1-Item4"},
+		    {"B2-Cat2", "B2-Cat2-Item1", "B2-Cat2-Item2", "B2-Cat2-Item3", "B2-Cat2-Item4", "B2-Cat2-Item5", "B2-Cat2-Item6"},
+		  });
+		  
+		  branch = createBranch(user, "b3", "z_entertain_foods_fastfoods", "B3", "B3 SaiGon");
+		  IOperation branch3 = branch;
+		  IUser user3 = user[0];
+		  createMenu(user3, branch3, "branch3", new String[][] {
+		    {"B3-Cat1", "B3-Cat1-Item1", "B3-Cat1-Item2", "B3-Cat1-Item3", "B3-Cat1-Item4"},
+		    {"B3-Cat2", "B3-Cat2-Item1", "B3-Cat2-Item2", "B3-Cat2-Item3", "B3-Cat2-Item4", "B3-Cat2-Item5", "B3-Cat2-Item6"},
+		  });
 	}
 
 	private static IOperation createBranch(IUser[] user, String login, String syscatId, String name, String... storeNames) throws SQLException, FileNotFoundException, IOException {
@@ -117,6 +130,10 @@ public class Sample2 {
 	}
 	
 	private static void createMenu(IUser user, IOperation branch, String[][] s) throws SQLException {
+		createMenu(user, branch, null, s);
+	}
+	
+	private static void createMenu(IUser user, IOperation branch, String branchName, String[][] s) throws SQLException {
 		ICatalog rootCat = branch.getRootCatalog();
 		for (String[] menu : s) {
 			ICatalog cat = rootCat.getSubCatalogPagingList().newEntryInstance(user);
@@ -125,6 +142,9 @@ public class Sample2 {
 			for (int i = 1; i < menu.length; i++) {
 				String one = menu [i];
 				ICatalogItem item = cat.getCatalogItemPagingList().newEntryInstance(user);
+				if (branchName != null) {
+					item.setBranchName(branchName);
+				}
 				item.setField(ICatalogField.F_NAME, one);
 				cat.getCatalogItemPagingList().put(user, item);
 			}
