@@ -96,7 +96,7 @@ class ClientSupport {
 		}
 	}
 	
-	static void createItems() {
+	/*static void createItems() {
 		try {
 			Class<?> c = Class.forName("com.jinnova.smartpad.partner.SystemCatalogGenrator");
 			Method m = c.getMethod("createItems");
@@ -114,6 +114,6 @@ class ClientSupport {
 		} catch (InstantiationException e) {
 			throw new RuntimeException(e);
 		}
-	}
+	}*/
 
 }
